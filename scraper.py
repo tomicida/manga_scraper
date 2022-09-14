@@ -28,6 +28,8 @@ def main():
         for title in new_chapters:
            f2.write(title + "\n")
         f2.close()
+    else:
+        print("No results found")
 
 
 def extract_chapters(subreddit_view, collection, watchlist):
