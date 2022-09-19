@@ -7,6 +7,7 @@ def main():
     watchlist = []
     reddit = praw.Reddit("bot")
     new_chapters = []
+    debug_mode = 1
 
     #populate watchlist from local file
     f1 = open("watchlist.txt","rt")
@@ -19,7 +20,19 @@ def main():
     extract_chapters(reddit.subreddit("manga").new(limit=100),new_chapters,watchlist)
     extract_chapters(reddit.subreddit("manga").hot(limit=25),new_chapters,watchlist)
 
-    save_to_file(new_chapters)
+    match debug_mode :
+        case 0: 
+            save_to_file(new_chapters)
+        case 1:
+            system_notification(new_chapters)
+
+def system_notification(chapter_list):
+    notification.notify(
+        title = 'New Chapters',
+        message = "\n".join(chapter_list),
+        app_icon = None,
+        timeout = 5,
+    )
 
 def save_to_file(chapter_list):
     #record current time
